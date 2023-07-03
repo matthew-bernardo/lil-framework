@@ -1,7 +1,8 @@
 # Lil Framework
 
-This is an extremely lightweight JS framework that tries to just be a wrapper around native Web Components. Its goal is to make native web components a little more declarative, but still recognizably Web Components. Lil Framework is intentionally very light on features, and doesn't support certain complex DOM structures. In exchange for these shortcomings, it fits into only a few kilobytes, has a very simple learning curve, and plays nicely with UI not created using its component generator.
+This is an extremely lightweight JS framework that tries to just be a wrapper around native Web Components. Its goal is to make native web components a little more declarative, but still recognizably Web Components. Lil Framework is intentionally very light on features, and doesn't support certain complex DOM structures. In exchange for these shortcomings, it's absurdly lightweight, has a very simple learning curve, and plays nicely with UI not created using its component generator.
 
+🔌🔌🔌**SHAMELESS PLUG**: This framework was created while working on [Pocket Dimension](https://about.pocketdimension.io), which is a cool app that you should check out.🔌🔌🔌
 ## Features
 
 Lil Framework (abbreviated to LF in the rest of this document) consists of two basic parts:
