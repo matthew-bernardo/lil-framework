@@ -1,0 +1,14 @@
+{
+  "name": "lil-framework",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "yarn compile; yarn compress",
+    "compress": "for f in dist/*; do uglifyjs -m -c -o \"$f\" -- \"$f\"; done",
+    "compile": "tsc"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  }
+}
