@@ -3,18 +3,18 @@
 This is an extremely lightweight JS framework that tries to just be a wrapper around native Web Components. Its goal is to make native web components a little more declarative, but still recognizably Web Components. Lil Framework is intentionally very light on features, and doesn't support certain complex DOM structures. In exchange for these shortcomings, it's absurdly lightweight, has a very simple learning curve, and plays nicely with UI not created using its component generator.
 
 🔌🔌🔌**SHAMELESS PLUG**: This framework was created while working on [Pocket Dimension](https://about.pocketdimension.io), which is a cool app that you should check out.🔌🔌🔌
+
 ## Features
 
 Lil Framework (abbreviated to LF in the rest of this document) consists of two basic parts:
 
-* The `lfComponent` function, which registers web components.
-* A simple state manager.
+* The `lilComponent` function, which registers web components.
+* The `stateObject` function, which is used internally by Lil Framework but can also be used for general state management.
 
-Components created using `lfComponent` have a lean list of features that make them an upgrade over native Web Components while doing as little as possible. The intent is for developers to use native Javascript APIs as needed to extend this feature set.
+Components created using `lilComponent` have a lean list of features that make them an upgrade over native Web Components while doing as little as possible. The intent is for developers to use native Javascript APIs as needed to extend this feature set.
 
 * UI Reactivity. Component templates can contain references to state variables, and the markup automatically updates. LF doesn't use a virtual DOM, but instead inserts additional DOM elements and attributes and updates the component HTML in place. This is performant, but does the potential for weird behavior in complex use cases. For most use cases, this approach is sufficient.
 * Hooks. It's easy to register hooks that execute code whenever an attribute is updated. This is achieved using Proxies and Web Components' `attributeChangeCallback`.
-* Iterative markup. LF includes an `<lf-for>` component. This can be used to achieve an effect similar to Vue's `v-for`.
 * Declarative event handlers. LF includes a convenient and declarative way to bind component methods to events.
 
 ## Use

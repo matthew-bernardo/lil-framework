@@ -23,7 +23,6 @@ export function lilComponent({ name, template, data = {}, hooks = {}, handlers =
 
   // Generate a class that manages internal state and re-rendering
   const LilComponentClass = class extends HTMLElement {
-    refId: string;
     state?: Record<string, any>
     handlers?: Record<string, Function>
     dependencyTree?: Dependency
