@@ -10,7 +10,7 @@ interface ILilComponentProps extends IState {
 type Dependency = Record<string, Array<any>>
 
 export function lilComponent({ name, template, data = {}, hooks = {}, handlers = {} }: ILilComponentProps) {
-  getImplicitVariables(template).forEach((stateVariable) => {
+  getImplicitVariables(template, hooks).forEach((stateVariable) => {
     data[stateVariable] = data[stateVariable] ?? "";
   });
 
@@ -84,7 +84,7 @@ export function lilComponent({ name, template, data = {}, hooks = {}, handlers =
         acc[prop] = hooks[prop] || []
         acc[prop].push((newVal: any) => {
           if (this.dependencyTree) {
-            this.dependencyTree[prop]?.forEach(({ el, attribute, innerText }) => {
+            this.dependencyTree[prop]?.forEach(({ el, attribute }) => {
               if (attribute) {
                 el.setAttribute(attribute, newVal)
               } else {
@@ -120,11 +120,12 @@ export function lilComponent({ name, template, data = {}, hooks = {}, handlers =
   window.customElements.define(name, LilComponentClass);
 }
 
-function getImplicitVariables(template: string): Array<string> {
-  const stateVariables: Array<string> = [];
+function getImplicitVariables(template: string, hooks: Record<string, any>): Array<string> {
+  const stateVariables: Set<string> = new Set()
   template.match(/{{([^}}]*)}}/gm)?.forEach(ref => {
     const variableName = ref.replace("{{", "").replace("}}", "")
-    stateVariables.push(variableName);
+    stateVariables.add(variableName);
   });
-  return stateVariables;
+  Object.keys(hooks).forEach(key => stateVariables.add(key))
+  return Array.from(stateVariables);
 }
