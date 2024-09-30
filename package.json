@@ -1,14 +1,17 @@
 {
   "name": "lil-framework",
-  "version": "0.0.4",
+  "version": "0.0.16",
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "src/types.d.ts",
   "scripts": {
     "build": "yarn compile; yarn compress",
     "compress": "for f in dist/*; do uglifyjs -m -c -o \"$f\" -- \"$f\"; done",
     "compile": "tsc"
   },
   "devDependencies": {
+    "typescript": "^5.6.2",
     "uglify-js": "^3.17.4"
-  }
+  },
+  "dependencies": {}
 }

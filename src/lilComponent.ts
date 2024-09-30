@@ -1,18 +1,15 @@
-import { stateObject, IState } from "./stateObject";
+import type { ILilComponentProps, IState } from "./types";
+
+import { stateObject } from "./stateObject";
 import { parseTemplate } from "./parseTemplate";
 
-interface ILilComponentProps extends IState {
-  name: string;
-  template: string;
-  handlers?: Record<string, Function>;
-}
-
 type Dependency = Record<string, Array<any>>
-
 export function lilComponent({ name, template, data = {}, hooks = {}, handlers = {} }: ILilComponentProps) {
   getImplicitVariables(template, hooks).forEach((stateVariable) => {
     data[stateVariable] = data[stateVariable] ?? "";
   });
+
+  data.mounted ||= "false"
 
   // Store list of state variables so we don't need to recompute it
   data._stateVars = Object.keys(data);
@@ -40,13 +37,15 @@ export function lilComponent({ name, template, data = {}, hooks = {}, handlers =
       this.state = stateObject(this, { data, hooks: _hooks });
       this.handlers = handlers
       // Update state variables based on attributes
-      this.state._stateVars.forEach((stateVariable: string) => {
-        if (this.hasAttribute(stateVariable)) {
-          if (this.state) {
-            this.state[stateVariable] = this.getAttribute(stateVariable);
+      try {
+        this.state._stateVars.forEach((stateVariable: string) => {
+          if (this.hasAttribute(stateVariable) || stateVariable === "mounted") {
+            if (this.state) {
+              this.state[stateVariable] = stateVariable !== "mounted" ? this.getAttribute(stateVariable) : "true";
+            }
           }
-        }
-      });
+        });
+      } catch (_) {}
     }
     attributeChangedCallback(name: string, oldValue: any, newValue: any) {
       if (!this.state) {
@@ -102,8 +101,10 @@ export function lilComponent({ name, template, data = {}, hooks = {}, handlers =
         const [binding, event] = el.getAttribute("lfbind").split(":");
         el.addEventListener(event, (e) => {
           // TODO: Handle different tag types
-          // @ts-ignore
-          this.state[binding] = e.detail || e.target.value;
+          try {
+            // @ts-ignore
+            this.state[binding] = e.detail || e.target.value || "";
+          } catch (err) {}
         });
       });
       this.querySelectorAll("[lfhandle]").forEach((el) => {
