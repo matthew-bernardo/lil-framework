@@ -29,7 +29,7 @@ export function stateObject(context: any, config: IState): Record<string, any> {
       const initialVal = target[prop]
       Reflect.set(target, prop, value);
       hooks[prop]?.forEach((hook) => hook.call(context, value, initialVal));
-      return value
+      return value || true
     },
   });
 }
