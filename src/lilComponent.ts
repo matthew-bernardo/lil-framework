@@ -33,8 +33,8 @@ export function lilComponent({ name, template, data = {}, hooks = {}, handlers =
       this.innerHTML = template;
       this.addListeners();
       this.dependencyTree = this.parseDependencies();
-      const _hooks = { ...hooks, ...this.getRenderHooks({ data, hooks })}
-      this.state = stateObject(this, { data, hooks: _hooks });
+      const d = { ...data }
+      this.state = stateObject(this, { data: d, hooks: this.getRenderHooks({ data: d, hooks }) });
       this.handlers = handlers
       // Update state variables based on attributes
       try {
@@ -80,7 +80,7 @@ export function lilComponent({ name, template, data = {}, hooks = {}, handlers =
     }
     getRenderHooks({ data, hooks }: IState) {
       return Object.keys(data).reduce((acc: Dependency, prop) => {
-        acc[prop] = hooks[prop] || []
+        acc[prop] = [...(hooks[prop] || [])]
         acc[prop].push((newVal: any) => {
           if (this.dependencyTree) {
             this.dependencyTree[prop]?.forEach(({ el, attribute }) => {
