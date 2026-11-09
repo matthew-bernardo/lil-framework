@@ -1,6 +1,6 @@
 {
   "name": "lil-framework",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "src/types.d.ts",
